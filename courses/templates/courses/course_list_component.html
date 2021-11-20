@@ -1,0 +1,37 @@
+<div class="col-lg-6">
+    <div class="card card-courses-list border-0 shadow-sm">
+        <div class="row no-gutters">
+            <div class="col-md-5 col-lg-5">
+                <div class="images-card-courses">
+                    <img src="{{ course.image.url }}" class="card-img-top img-fluid"
+                         alt="...">
+                </div>
+            </div>
+            <div class="col-md-7 col-lg-7">
+                <div class="content-card-courses px-3 py-3">
+                    <span class="name-courses">{{ course.title }}</span>
+                    <span class="teacher-courses mb-2">{{ course.owner }}</span>
+                    <span class="rank-courses">
+                                                    4.3
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <b>(3456)</b>
+                                                </span>
+                    <div class="price-courses mt-1 mb-2">
+                        {% if course.price != 0 %}
+                            <span class="price-main">{{ course.price }} تومان</span>
+
+                        {% else %}
+                            <span class="price-main">رایگان</span>
+                        {% endif %}
+
+                    </div>
+                    <a href="{{ course.get_absolute_url }}" class="btn btn-fill-secondary float-left">خرید دوره</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

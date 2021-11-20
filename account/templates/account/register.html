@@ -1,0 +1,266 @@
+{% extends 'shared/_MainLayout.html' %}
+{% load static %}
+
+{% block content %}
+    <!DOCTYPE html>
+<html lang="en">
+
+
+    <div class="spinner-wrapper">
+        <div class="logo-spinner">
+            <img style="width: 200px;height: 200px" src="{% static 'img/python_expert.png' %}" alt="">
+        </div>
+        <div class="spinner">
+            <div class="rect1"></div>
+            <div class="rect2"></div>
+            <div class="rect3"></div>
+            <div class="rect4"></div>
+            <div class="rect5"></div>
+        </div>
+    </div>
+
+    <header class="header">
+        <div class="base-header">
+            <div class="top-header">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-5 col-md-8 col-lg-6">
+                            <div class="top-header-info-left"> <span class="top-email"><i class="fas fa-envelope mr-1"></i>support@pythonexpert.ir</span>  <span class="top-phone ml-2"><i class="fas fa-mobile-alt mr-1"></i>031-36680000</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="middle-header bg-white">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-md-4 col-lg-2">
+                            <div class="logo-brand"> <i class="fas fa-bars menu-mobile"></i>
+                                <a href="/">
+                                    <img style="width: 80px;height: 80px" src="{% static 'img/python_expert.png' %}" alt="">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-8 col-lg-5">
+                            <div class="nav-search">
+                                {% include 'shared/search_input_component.html' %}
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-12 col-lg-5">
+                            <div class="group-icon-header">
+                                <div class="cart"><a href=""><i class="fas fa-shopping-basket"></i>
+                                </a>
+                                </div>
+                            </div>
+                            {% if not request.user.is_authenticated %}
+
+                            <div class="group-btn-header"> <a href="/register" class="btn-resgiter ml-2">ثبت نام</a>
+                                <a href="/login" class="btn-login ">ورود</a>
+                            </div>
+                                {% else %}
+                                <div class="group-btn-header"> <a href="/logout" class="btn-resgiter ml-2"> خروج</a>
+                            </div>
+
+                            {% endif %}
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom-header bg-light">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 col-lg-4">
+                            <div class="page-breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#">خانه</a>
+                                    </li>
+                                    <li class="breadcrumb-item"><a href="#"><i class="fas fa-angle-left"></i></a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">صفحات</li>
+                                    <li class="breadcrumb-item active"><a href="#"><i class="fas fa-angle-left"></i></a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">صفحه ثبت نام</li>
+                                </ol>
+                            </div>
+                            <div class="logo-brand">
+                                <a href="">
+                                    <img style="width: 80px;height: 80px" src="{% static 'img/python_expert.png' %}" alt="">
+                                </a>
+                            </div>
+                        </div>
+
+            <div class="col-lg-8">
+                            <div class="block-navigation float-left">
+                                <nav class="navbar navbar-expand-lg">
+                                    <ul class="navbar-nav">
+                                        <li class="nav-item"> <a class="nav-link" href="/">خانه</a>
+                                        </li>
+                                        <li class="nav-item"> <a class="nav-link" href="/courses">دوره ها </a>
+                                        </li>
+                                        <li class="nav-item"> <a class="nav-link" href="/blog">وبلاگ </a>
+                                        </li>
+                                        <li class="nav-item"> <a class="nav-link" href="/contact-us">تماس با ما</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Navigation For Mobile -->
+            <div class="block-menu-mobile">
+                <div class="accordion" id="menu-screen-mobile">
+                    <h3>صفحه منو</h3>
+                    <div class="card">
+                        <div class="card-header">
+                            <a href="/" class="mr-2"> خانه</a>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <a href="/courses" class="mr-2">
+                                دوره ها
+                            </a>
+                        </div>
+
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <a href="/blog" class="mr-2">
+                                وبلاگ
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <a href="/contact-us" class="mr-2">
+                            تماس با ما
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="overlay-black">
+                <i class="fas fa-times close-mobile float-left"></i>
+            </div>
+            <!-- End Navigation For Mobile -->
+        </div>
+    </header>
+
+    <div class="wrapper-page">
+        <div class="content-page">
+            <!-- Register Page Section -->
+           <div class="page-register">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 col-lg-4 offset-lg-4">
+                            <div class="base-register shadow-sm">
+                                <h3 class="mb-3">ایجاد یک حساب کاربری</h3>
+                                <form method="post">
+                                    {% csrf_token %}
+                                <div class="form-group">
+                                    {{ form.user_name }} </div>
+                                {% for error in form.user_name.errors %}
+                                        <span style="color: red">{{ error }}</span>
+                                    {% endfor %}
+                                     <div class="form-group">
+                                    {{ form.first_name }} </div>
+                                    <div class="form-group">
+                                    {{ form.last_name }} </div>
+                                <div class="form-group">
+                                   {{ form.email }} </div>
+                                {% for error in form.email.errors %}
+                                        <span style="color: red">{{ error }}</span>
+                                    {% endfor %}
+                                <div class="form-group">
+                                    {{ form.password }} </div>
+                                    <div class="form-group mb-0">
+                                    {{ form.re_password }} </div>
+                                    {% for error in form.re_password.errors %}
+                                        <span style="color: red">{{ error }}</span>
+                                    {% endfor %}
+                                    <div class="login-footer">
+                                        <label class="check-box">
+                                            <span>من با شرایط و سیاست سایت موافقم.</span>
+                                                <input type="checkbox" value="" required> <span class="checkmark"></span>
+                                            </label>
+
+                                    </div>
+                                    <div class="btn-login">
+                                        <button type="submit" class="btn btn-fill-secondary d-block">ثبت نام</button>
+                                    </div>
+                                    </form>
+                                    <hr>
+                                    <div class="group-btn-social">
+                                        <a href="" class="btn-fb"><i class="fab fa-facebook-f"></i>فیسبوک</a>
+                                        <a href="" class="btn-google"><i class="fab fa-google-plus"></i>گوگل</a>
+                                    </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <div class="area">
+                        <ul class="circles">
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                        </ul>
+                    </div>
+            </div>
+            <!-- End Register Page Section -->
+
+
+            <!-- Newsletter Now Section -->
+            <div class="new-letter">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="content-new-letter">
+                                <div class="media">
+                                    <div class="icon-new-letter align-self-center ml-3"> <i class="fas fa-envelope-open-text"></i>
+                                    </div>
+                                    <div class="media-body">
+                                        <h3 class="mt-0 mb-1">اکنون به خبرنامه ما بپیوندید</h3>
+                                        <p>برای دریافت به روزرسانی در تبلیغات ، اکنون ثبت نام کنید.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="subscribe-form">
+                                <form action="index.html">
+                                    <div class="form-group form-subscribe-email">
+                                        <input type="text" placeholder="ایمیل خود را وارد کنید" class="form-control">
+                                        <button type="submit" class="btn-email">اشتراک</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Newsletter Now Section -->
+        </div>
+        <!-- Button Back Top -->
+        <div class="back-top"> <a href="#top"><i class="fas fa-angle-up"></i></a>
+        </div>
+        <!-- End Button Back Top -->
+    </div>
+
+
+{% endblock %}
+
+
