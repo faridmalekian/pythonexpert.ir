@@ -581,6 +581,7 @@ def create_reverse_many_to_one_manager(superclass, rel):
             queryset._add_hints(instance=self.instance)
             if self._db:
                 queryset = queryset.using(self._db)
+            queryset._defer_next_filter = True
             queryset = queryset.filter(**self.core_filters)
             for field in self.field.foreign_related_fields:
                 val = getattr(self.instance, field.attname)
@@ -641,7 +642,6 @@ def create_reverse_many_to_one_manager(superclass, rel):
 
         def add(self, *objs, bulk=True):
             self._remove_prefetched_objects()
-            objs = list(objs)
             db = router.db_for_write(self.model, instance=self.instance)
 
             def check_and_update_obj(obj):
@@ -866,18 +866,17 @@ def create_forward_many_to_many_manager(superclass, rel, reverse):
         do_not_call_in_templates = True
 
         def _build_remove_filters(self, removed_vals):
-            filters = Q(**{self.source_field_name: self.related_val})
+            filters = Q((self.source_field_name, self.related_val))
             # No need to add a subquery condition if removed_vals is a QuerySet without
             # filters.
             removed_vals_filters = (not isinstance(removed_vals, QuerySet) or
                                     removed_vals._has_filters())
             if removed_vals_filters:
-                filters &= Q(**{'%s__in' % self.target_field_name: removed_vals})
+                filters &= Q((f'{self.target_field_name}__in', removed_vals))
             if self.symmetrical:
-                symmetrical_filters = Q(**{self.target_field_name: self.related_val})
+                symmetrical_filters = Q((self.target_field_name, self.related_val))
                 if removed_vals_filters:
-                    symmetrical_filters &= Q(
-                        **{'%s__in' % self.source_field_name: removed_vals})
+                    symmetrical_filters &= Q((f'{self.source_field_name}__in', removed_vals))
                 filters |= symmetrical_filters
             return filters
 

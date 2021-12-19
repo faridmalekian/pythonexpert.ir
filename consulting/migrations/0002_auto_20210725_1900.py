@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('consulting', '0001_migrations'),
     ]
@@ -14,6 +13,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='consulting',
             name='tel',
-            field=models.CharField(max_length=11, unique=True, validators=[django.core.validators.RegexValidator(regex='^\\09\\[0-9]{9}')]),
+            field=models.CharField(max_length=11, unique=True,
+                                   validators=[django.core.validators.RegexValidator(regex='^\\09\\[0-9]{9}')]),
         ),
     ]

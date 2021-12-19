@@ -7,15 +7,22 @@ class LoginForm(forms.Form):
         widget=forms.EmailInput(attrs={'class': "form-control", 'placeholder': "ایمیل شما..."})
     )
 
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'class':"form-control" ,'placeholder':"کلمه عبور..."}))
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': "form-control", 'placeholder': "کلمه عبور..."}))
+
 
 class RegisterForm(forms.Form):
-    user_name = forms.CharField(widget=forms.TextInput(attrs={'class':"form-control" ,'placeholder':"نام کاربری خود را وارد کنید..."}))
-    first_name = forms.CharField(widget=forms.TextInput(attrs={'class':"form-control" ,'placeholder':"نام خود را وارد کنید..."}))
-    last_name = forms.CharField(widget=forms.TextInput(attrs={'class':"form-control" ,'placeholder':"نام خانوادگی خود را وارد کنید..."}))
-    email = forms.EmailField(widget=forms.EmailInput(attrs={'class':"form-control" ,'placeholder':"ایمیل شما..."}))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'class':"form-control" ,'placeholder':"کلمه عبور..."}))
-    re_password = forms.CharField(widget=forms.PasswordInput(attrs={'class':"form-control" ,'placeholder':"تکرار کلمه عبور..."}))
+    user_name = forms.CharField(
+        widget=forms.TextInput(attrs={'class': "form-control", 'placeholder': "نام کاربری خود را وارد کنید..."}))
+    first_name = forms.CharField(
+        widget=forms.TextInput(attrs={'class': "form-control", 'placeholder': "نام خود را وارد کنید..."}))
+    last_name = forms.CharField(
+        widget=forms.TextInput(attrs={'class': "form-control", 'placeholder': "نام خانوادگی خود را وارد کنید..."}))
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': "form-control", 'placeholder': "ایمیل شما..."}))
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': "form-control", 'placeholder': "کلمه عبور..."}))
+    re_password = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': "form-control", 'placeholder': "تکرار کلمه عبور..."}))
 
     def clean_email(self):
         email = self.cleaned_data.get("email")
@@ -32,11 +39,9 @@ class RegisterForm(forms.Form):
         is_exists_user_by_username = User.objects.filter(username=user_name).exists()
 
         if is_exists_user_by_username:
-           raise forms.ValidationError("کاربری قبلا با این نام کاربری ثبت نام کرده است")
+            raise forms.ValidationError("کاربری قبلا با این نام کاربری ثبت نام کرده است")
 
         return user_name
-
-
 
     def clean_re_password(self):
         password = self.cleaned_data.get("password")

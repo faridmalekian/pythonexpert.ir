@@ -24,7 +24,8 @@
                         <div class="col-12 col-md-4 col-lg-2">
                             <div class="logo-brand"><i class="fas fa-bars menu-mobile"></i>
                                 <a href="/">
-                                    <img style="width: 80px;height: 80px" src="{% static 'img/python_expert.png' %}" alt="">
+                                    <img style="width: 80px;height: 80px" src="{% static 'img/python_expert.png' %}"
+                                         alt="">
                                 </a>
                             </div>
                         </div>
@@ -72,7 +73,8 @@
                             </div>
                             <div class="logo-brand">
                                 <a href="">
-                                    <img style="width: 80px;height: 80px" src="{% static 'img/python_expert.png' %}" alt="">
+                                    <img style="width: 80px;height: 80px" src="{% static 'img/python_expert.png' %}"
+                                         alt="">
                                 </a>
                             </div>
                         </div>
@@ -80,13 +82,13 @@
                             <div class="block-navigation float-left">
                                 <nav class="navbar navbar-expand-lg">
                                     <ul class="navbar-nav">
-                                        <li class="nav-item"> <a class="nav-link" href="/">خانه</a>
+                                        <li class="nav-item"><a class="nav-link" href="/">خانه</a>
                                         </li>
-                                        <li class="nav-item"> <a class="nav-link" href="/courses">دوره ها </a>
+                                        <li class="nav-item"><a class="nav-link" href="/courses">دوره ها </a>
                                         </li>
-                                        <li class="nav-item"> <a class="nav-link" href="/blog">وبلاگ </a>
+                                        <li class="nav-item"><a class="nav-link" href="/blog">وبلاگ </a>
                                         </li>
-                                        <li class="nav-item"> <a class="nav-link" href="/contact-us">تماس با ما</a>
+                                        <li class="nav-item"><a class="nav-link" href="/contact-us">تماس با ما</a>
                                         </li>
                                     </ul>
                                 </nav>
@@ -123,7 +125,7 @@
                     <div class="card">
                         <div class="card-header">
                             <a href="/contact-us" class="mr-2">
-                            تماس با ما
+                                تماس با ما
                             </a>
                         </div>
                     </div>
@@ -173,12 +175,14 @@
 
                                         {% for page in paginator.page_range %}
                                             {% if page == page_obj.number %}
-                                                <li class="page-item active"><a class="page-link" href="?page={{ page }}">{{ page }}</a>
-                                            </li>
+                                                <li class="page-item active"><a class="page-link"
+                                                                                href="?page={{ page }}">{{ page }}</a>
+                                                </li>
 
-                                                {% else %}
-                                                <li class="page-item"><a class="page-link" href="?page={{ page }}">{{ page }}</a>
-                                            </li>
+                                            {% else %}
+                                                <li class="page-item"><a class="page-link"
+                                                                         href="?page={{ page }}">{{ page }}</a>
+                                                </li>
                                             {% endif %}
 
                                         {% endfor %}

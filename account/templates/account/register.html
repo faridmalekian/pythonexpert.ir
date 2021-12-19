@@ -3,7 +3,7 @@
 
 {% block content %}
     <!DOCTYPE html>
-<html lang="en">
+    <html lang="en">
 
 
     <div class="spinner-wrapper">
@@ -25,7 +25,9 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-5 col-md-8 col-lg-6">
-                            <div class="top-header-info-left"> <span class="top-email"><i class="fas fa-envelope mr-1"></i>support@pythonexpert.ir</span>  <span class="top-phone ml-2"><i class="fas fa-mobile-alt mr-1"></i>031-36680000</span>
+                            <div class="top-header-info-left"><span class="top-email"><i
+                                    class="fas fa-envelope mr-1"></i>support@pythonexpert.ir</span> <span
+                                    class="top-phone ml-2"><i class="fas fa-mobile-alt mr-1"></i>031-36680000</span>
                             </div>
                         </div>
 
@@ -36,9 +38,10 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-12 col-md-4 col-lg-2">
-                            <div class="logo-brand"> <i class="fas fa-bars menu-mobile"></i>
+                            <div class="logo-brand"><i class="fas fa-bars menu-mobile"></i>
                                 <a href="/">
-                                    <img style="width: 80px;height: 80px" src="{% static 'img/python_expert.png' %}" alt="">
+                                    <img style="width: 80px;height: 80px" src="{% static 'img/python_expert.png' %}"
+                                         alt="">
                                 </a>
                             </div>
                         </div>
@@ -55,12 +58,12 @@
                             </div>
                             {% if not request.user.is_authenticated %}
 
-                            <div class="group-btn-header"> <a href="/register" class="btn-resgiter ml-2">ثبت نام</a>
-                                <a href="/login" class="btn-login ">ورود</a>
-                            </div>
-                                {% else %}
-                                <div class="group-btn-header"> <a href="/logout" class="btn-resgiter ml-2"> خروج</a>
-                            </div>
+                                <div class="group-btn-header"><a href="/register" class="btn-resgiter ml-2">ثبت نام</a>
+                                    <a href="/login" class="btn-login ">ورود</a>
+                                </div>
+                            {% else %}
+                                <div class="group-btn-header"><a href="/logout" class="btn-resgiter ml-2"> خروج</a>
+                                </div>
 
                             {% endif %}
 
@@ -87,22 +90,23 @@
                             </div>
                             <div class="logo-brand">
                                 <a href="">
-                                    <img style="width: 80px;height: 80px" src="{% static 'img/python_expert.png' %}" alt="">
+                                    <img style="width: 80px;height: 80px" src="{% static 'img/python_expert.png' %}"
+                                         alt="">
                                 </a>
                             </div>
                         </div>
 
-            <div class="col-lg-8">
+                        <div class="col-lg-8">
                             <div class="block-navigation float-left">
                                 <nav class="navbar navbar-expand-lg">
                                     <ul class="navbar-nav">
-                                        <li class="nav-item"> <a class="nav-link" href="/">خانه</a>
+                                        <li class="nav-item"><a class="nav-link" href="/">خانه</a>
                                         </li>
-                                        <li class="nav-item"> <a class="nav-link" href="/courses">دوره ها </a>
+                                        <li class="nav-item"><a class="nav-link" href="/courses">دوره ها </a>
                                         </li>
-                                        <li class="nav-item"> <a class="nav-link" href="/blog">وبلاگ </a>
+                                        <li class="nav-item"><a class="nav-link" href="/blog">وبلاگ </a>
                                         </li>
-                                        <li class="nav-item"> <a class="nav-link" href="/contact-us">تماس با ما</a>
+                                        <li class="nav-item"><a class="nav-link" href="/contact-us">تماس با ما</a>
                                         </li>
                                     </ul>
                                 </nav>
@@ -139,7 +143,7 @@
                     <div class="card">
                         <div class="card-header">
                             <a href="/contact-us" class="mr-2">
-                            تماس با ما
+                                تماس با ما
                             </a>
                         </div>
                     </div>
@@ -155,7 +159,7 @@
     <div class="wrapper-page">
         <div class="content-page">
             <!-- Register Page Section -->
-           <div class="page-register">
+            <div class="page-register">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12 col-lg-4 offset-lg-4">
@@ -163,62 +167,62 @@
                                 <h3 class="mb-3">ایجاد یک حساب کاربری</h3>
                                 <form method="post">
                                     {% csrf_token %}
-                                <div class="form-group">
-                                    {{ form.user_name }} </div>
-                                {% for error in form.user_name.errors %}
-                                        <span style="color: red">{{ error }}</span>
-                                    {% endfor %}
-                                     <div class="form-group">
-                                    {{ form.first_name }} </div>
                                     <div class="form-group">
-                                    {{ form.last_name }} </div>
-                                <div class="form-group">
-                                   {{ form.email }} </div>
-                                {% for error in form.email.errors %}
+                                        {{ form.user_name }} </div>
+                                    {% for error in form.user_name.errors %}
                                         <span style="color: red">{{ error }}</span>
                                     {% endfor %}
-                                <div class="form-group">
-                                    {{ form.password }} </div>
+                                    <div class="form-group">
+                                        {{ form.first_name }} </div>
+                                    <div class="form-group">
+                                        {{ form.last_name }} </div>
+                                    <div class="form-group">
+                                        {{ form.email }} </div>
+                                    {% for error in form.email.errors %}
+                                        <span style="color: red">{{ error }}</span>
+                                    {% endfor %}
+                                    <div class="form-group">
+                                        {{ form.password }} </div>
                                     <div class="form-group mb-0">
-                                    {{ form.re_password }} </div>
+                                        {{ form.re_password }} </div>
                                     {% for error in form.re_password.errors %}
                                         <span style="color: red">{{ error }}</span>
                                     {% endfor %}
                                     <div class="login-footer">
                                         <label class="check-box">
                                             <span>من با شرایط و سیاست سایت موافقم.</span>
-                                                <input type="checkbox" value="" required> <span class="checkmark"></span>
-                                            </label>
+                                            <input type="checkbox" value="" required> <span class="checkmark"></span>
+                                        </label>
 
                                     </div>
                                     <div class="btn-login">
                                         <button type="submit" class="btn btn-fill-secondary d-block">ثبت نام</button>
                                     </div>
-                                    </form>
-                                    <hr>
-                                    <div class="group-btn-social">
-                                        <a href="" class="btn-fb"><i class="fab fa-facebook-f"></i>فیسبوک</a>
-                                        <a href="" class="btn-google"><i class="fab fa-google-plus"></i>گوگل</a>
-                                    </div>
+                                </form>
+                                <hr>
+                                <div class="group-btn-social">
+                                    <a href="" class="btn-fb"><i class="fab fa-facebook-f"></i>فیسبوک</a>
+                                    <a href="" class="btn-google"><i class="fab fa-google-plus"></i>گوگل</a>
+                                </div>
 
                             </div>
                         </div>
                     </div>
                 </div>
-                 <div class="area">
-                        <ul class="circles">
-                            <li></li>
-                            <li></li>
-                            <li></li>
-                            <li></li>
-                            <li></li>
-                            <li></li>
-                            <li></li>
-                            <li></li>
-                            <li></li>
-                            <li></li>
-                        </ul>
-                    </div>
+                <div class="area">
+                    <ul class="circles">
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                    </ul>
+                </div>
             </div>
             <!-- End Register Page Section -->
 
@@ -230,7 +234,8 @@
                         <div class="col-lg-6">
                             <div class="content-new-letter">
                                 <div class="media">
-                                    <div class="icon-new-letter align-self-center ml-3"> <i class="fas fa-envelope-open-text"></i>
+                                    <div class="icon-new-letter align-self-center ml-3"><i
+                                            class="fas fa-envelope-open-text"></i>
                                     </div>
                                     <div class="media-body">
                                         <h3 class="mt-0 mb-1">اکنون به خبرنامه ما بپیوندید</h3>
@@ -255,7 +260,7 @@
             <!-- End Newsletter Now Section -->
         </div>
         <!-- Button Back Top -->
-        <div class="back-top"> <a href="#top"><i class="fas fa-angle-up"></i></a>
+        <div class="back-top"><a href="#top"><i class="fas fa-angle-up"></i></a>
         </div>
         <!-- End Button Back Top -->
     </div>

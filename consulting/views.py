@@ -14,7 +14,6 @@ from django.contrib import messages
 #     register_form = RegisterForm()
 
 
-
 #     context = {
 #         "form": register_form
 #     }
@@ -25,7 +24,6 @@ def add_to_db(request):
     context = {
         "form": register_form
     }
-
 
     if register_form.is_valid():
         name = register_form.cleaned_data["name"]
@@ -41,13 +39,8 @@ def add_to_db(request):
             "form": register_form
         }
 
-
-
-        return render(request,"home_page.html",context)
-
-    else:
-        messages.error(request,"Error")
         return render(request, "home_page.html", context)
 
-
-
+    else:
+        messages.error(request, "Error")
+        return render(request, "home_page.html", context)

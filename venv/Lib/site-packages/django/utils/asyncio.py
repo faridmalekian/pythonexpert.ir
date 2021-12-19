@@ -16,13 +16,12 @@ def async_unsafe(message):
             if not os.environ.get('DJANGO_ALLOW_ASYNC_UNSAFE'):
                 # Detect a running event loop in this thread.
                 try:
-                    event_loop = asyncio.get_event_loop()
+                    asyncio.get_running_loop()
                 except RuntimeError:
                     pass
                 else:
-                    if event_loop.is_running():
-                        raise SynchronousOnlyOperation(message)
-            # Pass onwards.
+                    raise SynchronousOnlyOperation(message)
+            # Pass onward.
             return func(*args, **kwargs)
         return inner
     # If the message is actually a function, then be a no-arguments decorator.

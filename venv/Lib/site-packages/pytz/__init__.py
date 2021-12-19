@@ -22,8 +22,8 @@ from pytz.tzfile import build_tzinfo
 
 
 # The IANA (nee Olson) database is updated several times a year.
-OLSON_VERSION = '2020d'
-VERSION = '2020.4'  # pip compatible version number.
+OLSON_VERSION = '2021c'
+VERSION = '2021.3'  # pip compatible version number.
 __version__ = VERSION
 
 OLSEN_VERSION = OLSON_VERSION  # Old releases had this misspelling
@@ -1058,6 +1058,7 @@ all_timezones = \
  'Pacific/Guam',
  'Pacific/Honolulu',
  'Pacific/Johnston',
+ 'Pacific/Kanton',
  'Pacific/Kiritimati',
  'Pacific/Kosrae',
  'Pacific/Kwajalein',
@@ -1420,7 +1421,6 @@ common_timezones = \
  'Australia/Adelaide',
  'Australia/Brisbane',
  'Australia/Broken_Hill',
- 'Australia/Currie',
  'Australia/Darwin',
  'Australia/Eucla',
  'Australia/Hobart',
@@ -1514,7 +1514,6 @@ common_timezones = \
  'Pacific/Chuuk',
  'Pacific/Easter',
  'Pacific/Efate',
- 'Pacific/Enderbury',
  'Pacific/Fakaofo',
  'Pacific/Fiji',
  'Pacific/Funafuti',
@@ -1523,6 +1522,7 @@ common_timezones = \
  'Pacific/Guadalcanal',
  'Pacific/Guam',
  'Pacific/Honolulu',
+ 'Pacific/Kanton',
  'Pacific/Kiritimati',
  'Pacific/Kosrae',
  'Pacific/Kwajalein',

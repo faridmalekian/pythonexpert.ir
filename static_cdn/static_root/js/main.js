@@ -1,31 +1,33 @@
-(function($) {
+(function ($) {
     'use strict';
 
     // ================================== Preloader ==================================
 
-    $(window).on('load', function() {
+    $(window).on('load', function () {
         var preloaderFadeOutTime = 500;
+
         function hidePreloader() {
             var preloader = $('.spinner-wrapper');
-            setTimeout(function() {
+            setTimeout(function () {
                 preloader.fadeOut(preloaderFadeOutTime);
             }, 500);
         }
+
         hidePreloader();
     })
- // ================================== Button Back Top ==================================
+    // ================================== Button Back Top ==================================
 
-    $(function() {
+    $(function () {
 
         // Scroll Event
-        $(window).on('scroll', function() {
+        $(window).on('scroll', function () {
             var scrolled = $(window).scrollTop();
             if (scrolled > 300) $('.back-top').addClass('active');
             if (scrolled < 300) $('.back-top').removeClass('active');
         });
 
 
-        $('.back-top').click(function() {
+        $('.back-top').click(function () {
             $('html,body').animate({
                 scrollTop: 0
             }, 700);
@@ -33,23 +35,24 @@
         });
     });
     // ================================== Header ==================================
- // add class fixed for menu when scroll
-    if ($('.bottom-header').hasClass('bottom-header'))  {
+    // add class fixed for menu when scroll
+    if ($('.bottom-header').hasClass('bottom-header')) {
         var header_height = $('.bottom-header'),
             offset = header_height.offset();
 
-        $(window).scroll(function() {
+        $(window).scroll(function () {
             if ($(window).scrollTop() > offset.top) {
                 $(".bottom-header").addClass('header-fixed');
             } else {
                 $(".bottom-header").removeClass('header-fixed');
             }
         });
-    };
+    }
+    ;
 
     // show menu when scroll up, hide menu when scroll down
     var lastScroll = 50;
-    $(window).on('scroll load', function(event) {
+    $(window).on('scroll load', function (event) {
         var st = $(this).scrollTop();
         if (st > lastScroll) {
             $('.bottom-header').addClass('hide-menu');
@@ -58,70 +61,71 @@
         }
         if ($(window).scrollTop() == 0) {
             $('.bottom-header').removeClass('.header-fixed').removeClass('hide-menu');
-        };
+        }
+        ;
         lastScroll = st;
 
     });
 
-        // ================================== Menu Responsive ==================================
-    $(function() {
-        $('.menu-mobile').click(function() {
+    // ================================== Menu Responsive ==================================
+    $(function () {
+        $('.menu-mobile').click(function () {
             $('.block-menu-mobile').addClass('show1');
             $('.overlay-black').addClass('show2');
 
             return false;
         })
-        $('.close-mobile').click(function() {
+        $('.close-mobile').click(function () {
             $('.block-menu-mobile').removeClass('show1');
             $('.overlay-black').removeClass('show2');
             return false;
         })
-        $('.overlay-black').click(function() {
+        $('.overlay-black').click(function () {
             $('.block-menu-mobile').removeClass('show1');
             $(this).removeClass('show2');
             return false;
         })
     })
 
-        // ================================== Catelories Responsive ==================================
-    $(function() {
-        $('.icon-catelory-mobile').click(function() {
+    // ================================== Catelories Responsive ==================================
+    $(function () {
+        $('.icon-catelory-mobile').click(function () {
             $('.block-catelory-mobile').addClass('show3');
             $('.overlay-black-2').addClass('show4');
 
             return false;
         })
-        $('.close-mobile-cate').click(function() {
+        $('.close-mobile-cate').click(function () {
             $('.block-catelory-mobile').removeClass('show3');
             $('.overlay-black-2').removeClass('show4');
             return false;
         })
-        $('.overlay-black-2').click(function() {
+        $('.overlay-black-2').click(function () {
             $('.block-catelory-mobile').removeClass('show3');
             $(this).removeClass('show4');
             return false;
         })
     })
 
-    $(function() {
-        
+    $(function () {
+
         // Show - hide box search on menu
-        $('.icon-search').on('click', function() {
+        $('.icon-search').on('click', function () {
             $('.nav-search').toggleClass('hide');
         });
         //hide box seach when click outside
-        $('body').on('click', function(event) {
+        $('body').on('click', function (event) {
             if ($('.icon-search').has(event.target).length === 0 && !$('.icon-search').is(event.target) && $('.nav-search').has(event.target).length === 0 && !$('.nav-search').is(event.target)) {
                 if ($('.nav-search').hasClass('hide') === false) {
                     $('.nav-search').toggleClass('hide');
                 }
             }
         });
-        
+
     });
 
-        // ================================== Carousel Custom ==================================
-       $(function() {
+    // ================================== Carousel Custom ==================================
+    $(function () {
         $('#carousel-card-courses-1').owlCarousel({
             loop: true,
             margin: 18,
@@ -149,7 +153,7 @@
         })
     })
 
-        $(function() {
+    $(function () {
         $('#carousel-card-courses-2').owlCarousel({
             loop: true,
             margin: 18,
@@ -176,9 +180,9 @@
             }
         })
     })
-     
 
-        $(function() {
+
+    $(function () {
         $('#carousel-events').owlCarousel({
             loop: true,
             margin: 10,
@@ -206,7 +210,7 @@
         })
     })
 
-          $(function() {
+    $(function () {
         $('#carousel-card-instrutor').owlCarousel({
             loop: true,
             margin: 20,
@@ -233,7 +237,7 @@
             }
         })
     })
-              $(function() {
+    $(function () {
         $('#carousel-card-instrutor-2').owlCarousel({
             loop: true,
             margin: 20,
@@ -261,7 +265,7 @@
         })
     })
 
-           $(function() {
+    $(function () {
         $('#our-client-say').owlCarousel({
             loop: true,
             margin: 10,
@@ -286,36 +290,36 @@
             }
         })
     })
-        
 
-        // ================================== Count Number ==================================
 
-        $(function() {
-            var counters = $(".count");
-            var countersQuantity = counters.length;
-            var counter = [];
-            for (var i = 0; i < countersQuantity; i++) {
-                counter[i] = parseInt(counters[i].innerHTML);
-            }
-            var count = function(start, value, id) {
-                var localStart = start;
-                setInterval(function() {
-                    if (localStart < value) {
-                        localStart++;
-                        counters[id].innerHTML = localStart;
-                    }
-                }, 80);
-            }
-            for (var j = 0; j < countersQuantity; j++) {
-                count(0, counter[j], j);
-            }
-        });
+    // ================================== Count Number ==================================
 
- /*===================================*
-    18. RATING STAR JS
-    *===================================*/
-    $(function(){
-      $('.star_rating span').on('click', function(){
+    $(function () {
+        var counters = $(".count");
+        var countersQuantity = counters.length;
+        var counter = [];
+        for (var i = 0; i < countersQuantity; i++) {
+            counter[i] = parseInt(counters[i].innerHTML);
+        }
+        var count = function (start, value, id) {
+            var localStart = start;
+            setInterval(function () {
+                if (localStart < value) {
+                    localStart++;
+                    counters[id].innerHTML = localStart;
+                }
+            }, 80);
+        }
+        for (var j = 0; j < countersQuantity; j++) {
+            count(0, counter[j], j);
+        }
+    });
+
+    /*===================================*
+       18. RATING STAR JS
+       *===================================*/
+    $(function () {
+        $('.star_rating span').on('click', function () {
             var onStar = parseFloat($(this).data('value'), 10); // The star currently selected
             var stars = $(this).parent().children('.star_rating span');
             for (var i = 0; i < stars.length; i++) {
@@ -325,7 +329,7 @@
                 $(stars[i]).addClass('selected');
             }
         });
-    }); 
-    
+    });
+
 
 })(jQuery);

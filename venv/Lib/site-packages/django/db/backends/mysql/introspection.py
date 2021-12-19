@@ -10,7 +10,11 @@ from django.db.models import Index
 from django.utils.datastructures import OrderedSet
 
 FieldInfo = namedtuple('FieldInfo', BaseFieldInfo._fields + ('extra', 'is_unsigned', 'has_json_constraint'))
-InfoLine = namedtuple('InfoLine', 'col_name data_type max_len num_prec num_scale extra column_default is_unsigned')
+InfoLine = namedtuple(
+    'InfoLine',
+    'col_name data_type max_len num_prec num_scale extra column_default '
+    'collation is_unsigned'
+)
 
 
 class DatabaseIntrospection(BaseDatabaseIntrospection):
@@ -84,6 +88,15 @@ class DatabaseIntrospection(BaseDatabaseIntrospection):
                     c.constraint_schema = DATABASE()
             """, [table_name])
             json_constraints = {row[0] for row in cursor.fetchall()}
+        # A default collation for the given table.
+        cursor.execute("""
+            SELECT  table_collation
+            FROM    information_schema.tables
+            WHERE   table_schema = DATABASE()
+            AND     table_name = %s
+        """, [table_name])
+        row = cursor.fetchone()
+        default_column_collation = row[0] if row else ''
         # information_schema database gives more accurate results for some figures:
         # - varchar length returned by cursor.description is an internal length,
         #   not visible length (#5725)
@@ -94,11 +107,16 @@ class DatabaseIntrospection(BaseDatabaseIntrospection):
                 column_name, data_type, character_maximum_length,
                 numeric_precision, numeric_scale, extra, column_default,
                 CASE
+                    WHEN collation_name = %s THEN NULL
+                    ELSE collation_name
+                END AS collation_name,
+                CASE
                     WHEN column_type LIKE '%% unsigned' THEN 1
                     ELSE 0
                 END AS is_unsigned
             FROM information_schema.columns
-            WHERE table_name = %s AND table_schema = DATABASE()""", [table_name])
+            WHERE table_name = %s AND table_schema = DATABASE()
+        """, [default_column_collation, table_name])
         field_info = {line[0]: InfoLine(*line) for line in cursor.fetchall()}
 
         cursor.execute("SELECT * FROM %s LIMIT 1" % self.connection.ops.quote_name(table_name))
@@ -116,6 +134,7 @@ class DatabaseIntrospection(BaseDatabaseIntrospection):
                 to_int(info.num_scale) or line[5],
                 line[6],
                 info.column_default,
+                info.collation,
                 info.extra,
                 info.is_unsigned,
                 line[0] in json_constraints,
@@ -161,10 +180,13 @@ class DatabaseIntrospection(BaseDatabaseIntrospection):
         Retrieve the storage engine for a given table. Return the default
         storage engine if the table doesn't exist.
         """
-        cursor.execute(
-            "SELECT engine "
-            "FROM information_schema.tables "
-            "WHERE table_name = %s", [table_name])
+        cursor.execute("""
+            SELECT engine
+            FROM information_schema.tables
+            WHERE
+                table_name = %s AND
+                table_schema = DATABASE()
+        """, [table_name])
         result = cursor.fetchone()
         if not result:
             return self.connection.features._mysql_storage_engine
@@ -192,40 +214,33 @@ class DatabaseIntrospection(BaseDatabaseIntrospection):
         # Get the actual constraint names and columns
         name_query = """
             SELECT kc.`constraint_name`, kc.`column_name`,
-                kc.`referenced_table_name`, kc.`referenced_column_name`
-            FROM information_schema.key_column_usage AS kc
+                kc.`referenced_table_name`, kc.`referenced_column_name`,
+                c.`constraint_type`
+            FROM
+                information_schema.key_column_usage AS kc,
+                information_schema.table_constraints AS c
             WHERE
                 kc.table_schema = DATABASE() AND
+                c.table_schema = kc.table_schema AND
+                c.constraint_name = kc.constraint_name AND
+                c.constraint_type != 'CHECK' AND
                 kc.table_name = %s
             ORDER BY kc.`ordinal_position`
         """
         cursor.execute(name_query, [table_name])
-        for constraint, column, ref_table, ref_column in cursor.fetchall():
+        for constraint, column, ref_table, ref_column, kind in cursor.fetchall():
             if constraint not in constraints:
                 constraints[constraint] = {
                     'columns': OrderedSet(),
-                    'primary_key': False,
-                    'unique': False,
+                    'primary_key': kind == 'PRIMARY KEY',
+                    'unique': kind in {'PRIMARY KEY', 'UNIQUE'},
                     'index': False,
                     'check': False,
                     'foreign_key': (ref_table, ref_column) if ref_column else None,
                 }
+                if self.connection.features.supports_index_column_ordering:
+                    constraints[constraint]['orders'] = []
             constraints[constraint]['columns'].add(column)
-        # Now get the constraint types
-        type_query = """
-            SELECT c.constraint_name, c.constraint_type
-            FROM information_schema.table_constraints AS c
-            WHERE
-                c.table_schema = DATABASE() AND
-                c.table_name = %s
-        """
-        cursor.execute(type_query, [table_name])
-        for constraint, kind in cursor.fetchall():
-            if kind.lower() == "primary key":
-                constraints[constraint]['primary_key'] = True
-                constraints[constraint]['unique'] = True
-            elif kind.lower() == "unique":
-                constraints[constraint]['unique'] = True
         # Add check constraints.
         if self.connection.features.can_introspect_check_constraints:
             unnamed_constraints_index = 0
@@ -270,18 +285,24 @@ class DatabaseIntrospection(BaseDatabaseIntrospection):
                 }
         # Now add in the indexes
         cursor.execute("SHOW INDEX FROM %s" % self.connection.ops.quote_name(table_name))
-        for table, non_unique, index, colseq, column, type_ in [x[:5] + (x[10],) for x in cursor.fetchall()]:
+        for table, non_unique, index, colseq, column, order, type_ in [
+            x[:6] + (x[10],) for x in cursor.fetchall()
+        ]:
             if index not in constraints:
                 constraints[index] = {
                     'columns': OrderedSet(),
                     'primary_key': False,
-                    'unique': False,
+                    'unique': not non_unique,
                     'check': False,
                     'foreign_key': None,
                 }
+                if self.connection.features.supports_index_column_ordering:
+                    constraints[index]['orders'] = []
             constraints[index]['index'] = True
             constraints[index]['type'] = Index.suffix if type_ == 'BTREE' else type_.lower()
             constraints[index]['columns'].add(column)
+            if self.connection.features.supports_index_column_ordering:
+                constraints[index]['orders'].append('DESC' if order == 'D' else 'ASC')
         # Convert the sorted sets to lists
         for constraint in constraints.values():
             constraint['columns'] = list(constraint['columns'])

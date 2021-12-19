@@ -5,7 +5,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('courses', '0007_review_comment'),
     ]
@@ -21,7 +20,8 @@ class Migration(migrations.Migration):
                 ('created_on', models.DateTimeField(auto_now_add=True)),
                 ('active', models.BooleanField(default=False)),
                 ('reply', models.TextField()),
-                ('post', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comments', to='courses.course')),
+                ('post', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comments',
+                                           to='courses.course')),
             ],
             options={
                 'ordering': ['created_on'],

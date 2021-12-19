@@ -20,7 +20,7 @@ from django.utils.text import Truncator
 
 class Command(BaseCommand):
     help = "Updates database schema. Manages both apps with migrations and those without."
-    requires_system_checks = False
+    requires_system_checks = []
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -140,7 +140,16 @@ class Command(BaseCommand):
                 except KeyError:
                     raise CommandError("Cannot find a migration matching '%s' from app '%s'." % (
                         migration_name, app_label))
-                targets = [(app_label, migration.name)]
+                target = (app_label, migration.name)
+                # Partially applied squashed migrations are not included in the
+                # graph, use the last replacement instead.
+                if (
+                    target not in executor.loader.graph.nodes and
+                    target in executor.loader.replacements
+                ):
+                    incomplete_migration = executor.loader.replacements[target]
+                    target = incomplete_migration.replaces[-1]
+                targets = [target]
             target_app_labels_only = False
         elif options['app_label']:
             targets = [key for key in executor.loader.graph.leaf_nodes() if key[0] == app_label]
@@ -201,7 +210,7 @@ class Command(BaseCommand):
         pre_migrate_state = executor._create_project_state(with_applied_migrations=True)
         pre_migrate_apps = pre_migrate_state.apps
         emit_pre_migrate_signal(
-            self.verbosity, self.interactive, connection.alias, apps=pre_migrate_apps, plan=plan,
+            self.verbosity, self.interactive, connection.alias, stdout=self.stdout, apps=pre_migrate_apps, plan=plan,
         )
 
         # Run the syncdb phase.
@@ -227,8 +236,9 @@ class Command(BaseCommand):
                 changes = autodetector.changes(graph=executor.loader.graph)
                 if changes:
                     self.stdout.write(self.style.NOTICE(
-                        "  Your models have changes that are not yet reflected "
-                        "in a migration, and so won't be applied."
+                        "  Your models in app(s): %s have changes that are not "
+                        "yet reflected in a migration, and so won't be "
+                        "applied." % ", ".join(repr(app) for app in sorted(changes))
                     ))
                     self.stdout.write(self.style.NOTICE(
                         "  Run 'manage.py makemigrations' to make new "
@@ -265,7 +275,7 @@ class Command(BaseCommand):
         # Send the post_migrate signal, so individual apps can do whatever they need
         # to do at this point.
         emit_post_migrate_signal(
-            self.verbosity, self.interactive, connection.alias, apps=post_migrate_apps, plan=plan,
+            self.verbosity, self.interactive, connection.alias, stdout=self.stdout, apps=post_migrate_apps, plan=plan,
         )
 
     def migration_progress_callback(self, action, migration=None, fake=False):

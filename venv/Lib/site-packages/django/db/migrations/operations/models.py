@@ -1,13 +1,13 @@
 from django.db import models
 from django.db.migrations.operations.base import Operation
 from django.db.migrations.state import ModelState
+from django.db.migrations.utils import field_references, resolve_relation
 from django.db.models.options import normalize_together
 from django.utils.functional import cached_property
 
 from .fields import (
     AddField, AlterField, FieldOperation, RemoveField, RenameField,
 )
-from .utils import field_references, get_references, resolve_relation
 
 
 def _check_for_duplicates(arg_name, objs):
@@ -99,6 +99,10 @@ class CreateModel(ModelOperation):
     def describe(self):
         return "Create %smodel %s" % ("proxy " if self.options.get("proxy", False) else "", self.name)
 
+    @property
+    def migration_name_fragment(self):
+        return self.name_lower
+
     def references_model(self, name, app_label):
         name_lower = name.lower()
         if name_lower == self.name_lower:
@@ -133,11 +137,15 @@ class CreateModel(ModelOperation):
                 ),
             ]
         elif isinstance(operation, AlterModelOptions) and self.name_lower == operation.name_lower:
+            options = {**self.options, **operation.options}
+            for key in operation.ALTER_OPTION_KEYS:
+                if key not in operation.options:
+                    options.pop(key, None)
             return [
                 CreateModel(
                     self.name,
                     fields=self.fields,
-                    options={**self.options, **operation.options},
+                    options=options,
                     bases=self.bases,
                     managers=self.managers,
                 ),
@@ -273,6 +281,10 @@ class DeleteModel(ModelOperation):
     def describe(self):
         return "Delete model %s" % self.name
 
+    @property
+    def migration_name_fragment(self):
+        return 'delete_%s' % self.name_lower
+
 
 class RenameModel(ModelOperation):
     """Rename a model."""
@@ -302,31 +314,7 @@ class RenameModel(ModelOperation):
         )
 
     def state_forwards(self, app_label, state):
-        # Add a new model.
-        renamed_model = state.models[app_label, self.old_name_lower].clone()
-        renamed_model.name = self.new_name
-        state.models[app_label, self.new_name_lower] = renamed_model
-        # Repoint all fields pointing to the old model to the new one.
-        old_model_tuple = (app_label, self.old_name_lower)
-        new_remote_model = '%s.%s' % (app_label, self.new_name)
-        to_reload = set()
-        for model_state, name, field, reference in get_references(state, old_model_tuple):
-            changed_field = None
-            if reference.to:
-                changed_field = field.clone()
-                changed_field.remote_field.model = new_remote_model
-            if reference.through:
-                if changed_field is None:
-                    changed_field = field.clone()
-                changed_field.remote_field.through = new_remote_model
-            if changed_field:
-                model_state.fields[name] = changed_field
-                to_reload.add((model_state.app_label, model_state.name_lower))
-        # Reload models related to old model before removing the old model.
-        state.reload_models(to_reload, delay=True)
-        # Remove the old model.
-        state.remove_model(app_label, self.old_name_lower)
-        state.reload_model(app_label, self.new_name_lower, delay=True)
+        state.rename_model(app_label, self.old_name, self.new_name)
 
     def database_forwards(self, app_label, schema_editor, from_state, to_state):
         new_model = to_state.apps.get_model(app_label, self.new_name)
@@ -397,6 +385,10 @@ class RenameModel(ModelOperation):
     def describe(self):
         return "Rename model %s to %s" % (self.old_name, self.new_name)
 
+    @property
+    def migration_name_fragment(self):
+        return 'rename_%s_%s' % (self.old_name_lower, self.new_name_lower)
+
     def reduce(self, operation, app_label):
         if (isinstance(operation, RenameModel) and
                 self.new_name_lower == operation.old_name_lower):
@@ -440,8 +432,7 @@ class AlterModelTable(ModelOptionOperation):
         )
 
     def state_forwards(self, app_label, state):
-        state.models[app_label, self.name_lower].options["db_table"] = self.table
-        state.reload_model(app_label, self.name_lower, delay=True)
+        state.alter_model_options(app_label, self.name_lower, {'db_table': self.table})
 
     def database_forwards(self, app_label, schema_editor, from_state, to_state):
         new_model = to_state.apps.get_model(app_label, self.name)
@@ -470,6 +461,10 @@ class AlterModelTable(ModelOptionOperation):
             self.table if self.table is not None else "(default)"
         )
 
+    @property
+    def migration_name_fragment(self):
+        return 'alter_%s_table' % self.name_lower
+
 
 class AlterTogetherOptionOperation(ModelOptionOperation):
     option_name = None
@@ -496,9 +491,11 @@ class AlterTogetherOptionOperation(ModelOptionOperation):
         )
 
     def state_forwards(self, app_label, state):
-        model_state = state.models[app_label, self.name_lower]
-        model_state.options[self.option_name] = self.option_value
-        state.reload_model(app_label, self.name_lower, delay=True)
+        state.alter_model_options(
+            app_label,
+            self.name_lower,
+            {self.option_name: self.option_value},
+        )
 
     def database_forwards(self, app_label, schema_editor, from_state, to_state):
         new_model = to_state.apps.get_model(app_label, self.name)
@@ -525,6 +522,10 @@ class AlterTogetherOptionOperation(ModelOptionOperation):
 
     def describe(self):
         return "Alter %s for %s (%s constraint(s))" % (self.option_name, self.name, len(self.option_value or ''))
+
+    @property
+    def migration_name_fragment(self):
+        return 'alter_%s_%s' % (self.name_lower, self.option_name)
 
 
 class AlterUniqueTogether(AlterTogetherOptionOperation):
@@ -570,9 +571,11 @@ class AlterOrderWithRespectTo(ModelOptionOperation):
         )
 
     def state_forwards(self, app_label, state):
-        model_state = state.models[app_label, self.name_lower]
-        model_state.options['order_with_respect_to'] = self.order_with_respect_to
-        state.reload_model(app_label, self.name_lower, delay=True)
+        state.alter_model_options(
+            app_label,
+            self.name_lower,
+            {self.option_name: self.order_with_respect_to},
+        )
 
     def database_forwards(self, app_label, schema_editor, from_state, to_state):
         to_model = to_state.apps.get_model(app_label, self.name)
@@ -606,6 +609,10 @@ class AlterOrderWithRespectTo(ModelOptionOperation):
 
     def describe(self):
         return "Set order_with_respect_to on %s to %s" % (self.name, self.order_with_respect_to)
+
+    @property
+    def migration_name_fragment(self):
+        return 'alter_%s_order_with_respect_to' % self.name_lower
 
 
 class AlterModelOptions(ModelOptionOperation):
@@ -646,12 +653,12 @@ class AlterModelOptions(ModelOptionOperation):
         )
 
     def state_forwards(self, app_label, state):
-        model_state = state.models[app_label, self.name_lower]
-        model_state.options = {**model_state.options, **self.options}
-        for key in self.ALTER_OPTION_KEYS:
-            if key not in self.options:
-                model_state.options.pop(key, False)
-        state.reload_model(app_label, self.name_lower, delay=True)
+        state.alter_model_options(
+            app_label,
+            self.name_lower,
+            self.options,
+            self.ALTER_OPTION_KEYS,
+        )
 
     def database_forwards(self, app_label, schema_editor, from_state, to_state):
         pass
@@ -661,6 +668,10 @@ class AlterModelOptions(ModelOptionOperation):
 
     def describe(self):
         return "Change Meta options on %s" % self.name
+
+    @property
+    def migration_name_fragment(self):
+        return 'alter_%s_options' % self.name_lower
 
 
 class AlterModelManagers(ModelOptionOperation):
@@ -680,9 +691,7 @@ class AlterModelManagers(ModelOptionOperation):
         )
 
     def state_forwards(self, app_label, state):
-        model_state = state.models[app_label, self.name_lower]
-        model_state.managers = list(self.managers)
-        state.reload_model(app_label, self.name_lower, delay=True)
+        state.alter_model_managers(app_label, self.name_lower, self.managers)
 
     def database_forwards(self, app_label, schema_editor, from_state, to_state):
         pass
@@ -692,6 +701,10 @@ class AlterModelManagers(ModelOptionOperation):
 
     def describe(self):
         return "Change managers on %s" % self.name
+
+    @property
+    def migration_name_fragment(self):
+        return 'alter_%s_managers' % self.name_lower
 
 
 class IndexOperation(Operation):
@@ -715,9 +728,7 @@ class AddIndex(IndexOperation):
         self.index = index
 
     def state_forwards(self, app_label, state):
-        model_state = state.models[app_label, self.model_name_lower]
-        model_state.options[self.option_name] = [*model_state.options[self.option_name], self.index.clone()]
-        state.reload_model(app_label, self.model_name_lower, delay=True)
+        state.add_index(app_label, self.model_name_lower, self.index)
 
     def database_forwards(self, app_label, schema_editor, from_state, to_state):
         model = to_state.apps.get_model(app_label, self.model_name)
@@ -741,11 +752,21 @@ class AddIndex(IndexOperation):
         )
 
     def describe(self):
+        if self.index.expressions:
+            return 'Create index %s on %s on model %s' % (
+                self.index.name,
+                ', '.join([str(expression) for expression in self.index.expressions]),
+                self.model_name,
+            )
         return 'Create index %s on field(s) %s of model %s' % (
             self.index.name,
             ', '.join(self.index.fields),
             self.model_name,
         )
+
+    @property
+    def migration_name_fragment(self):
+        return '%s_%s' % (self.model_name_lower, self.index.name.lower())
 
 
 class RemoveIndex(IndexOperation):
@@ -756,10 +777,7 @@ class RemoveIndex(IndexOperation):
         self.name = name
 
     def state_forwards(self, app_label, state):
-        model_state = state.models[app_label, self.model_name_lower]
-        indexes = model_state.options[self.option_name]
-        model_state.options[self.option_name] = [idx for idx in indexes if idx.name != self.name]
-        state.reload_model(app_label, self.model_name_lower, delay=True)
+        state.remove_index(app_label, self.model_name_lower, self.name)
 
     def database_forwards(self, app_label, schema_editor, from_state, to_state):
         model = from_state.apps.get_model(app_label, self.model_name)
@@ -789,6 +807,10 @@ class RemoveIndex(IndexOperation):
     def describe(self):
         return 'Remove index %s from %s' % (self.name, self.model_name)
 
+    @property
+    def migration_name_fragment(self):
+        return 'remove_%s_%s' % (self.model_name_lower, self.name.lower())
+
 
 class AddConstraint(IndexOperation):
     option_name = 'constraints'
@@ -798,9 +820,7 @@ class AddConstraint(IndexOperation):
         self.constraint = constraint
 
     def state_forwards(self, app_label, state):
-        model_state = state.models[app_label, self.model_name_lower]
-        model_state.options[self.option_name] = [*model_state.options[self.option_name], self.constraint]
-        state.reload_model(app_label, self.model_name_lower, delay=True)
+        state.add_constraint(app_label, self.model_name_lower, self.constraint)
 
     def database_forwards(self, app_label, schema_editor, from_state, to_state):
         model = to_state.apps.get_model(app_label, self.model_name)
@@ -821,6 +841,10 @@ class AddConstraint(IndexOperation):
     def describe(self):
         return 'Create constraint %s on model %s' % (self.constraint.name, self.model_name)
 
+    @property
+    def migration_name_fragment(self):
+        return '%s_%s' % (self.model_name_lower, self.constraint.name.lower())
+
 
 class RemoveConstraint(IndexOperation):
     option_name = 'constraints'
@@ -830,10 +854,7 @@ class RemoveConstraint(IndexOperation):
         self.name = name
 
     def state_forwards(self, app_label, state):
-        model_state = state.models[app_label, self.model_name_lower]
-        constraints = model_state.options[self.option_name]
-        model_state.options[self.option_name] = [c for c in constraints if c.name != self.name]
-        state.reload_model(app_label, self.model_name_lower, delay=True)
+        state.remove_constraint(app_label, self.model_name_lower, self.name)
 
     def database_forwards(self, app_label, schema_editor, from_state, to_state):
         model = to_state.apps.get_model(app_label, self.model_name)
@@ -857,3 +878,7 @@ class RemoveConstraint(IndexOperation):
 
     def describe(self):
         return 'Remove constraint %s from model %s' % (self.name, self.model_name)
+
+    @property
+    def migration_name_fragment(self):
+        return 'remove_%s_%s' % (self.model_name_lower, self.name.lower())

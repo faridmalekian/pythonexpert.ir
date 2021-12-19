@@ -99,6 +99,8 @@ class DatabaseSchemaEditor(BaseDatabaseSchemaEditor):
             super().alter_db_table(model, old_db_table, new_db_table)
 
     def alter_field(self, model, old_field, new_field, strict=False):
+        if not self._field_should_be_altered(old_field, new_field):
+            return
         old_field_name = old_field.name
         table_name = model._meta.db_table
         _, old_column_name = old_field.get_attname_column()
@@ -417,13 +419,26 @@ class DatabaseSchemaEditor(BaseDatabaseSchemaEditor):
         self.delete_model(old_field.remote_field.through)
 
     def add_constraint(self, model, constraint):
-        if isinstance(constraint, UniqueConstraint) and constraint.condition:
+        if isinstance(constraint, UniqueConstraint) and (
+            constraint.condition or
+            constraint.contains_expressions or
+            constraint.include or
+            constraint.deferrable
+        ):
             super().add_constraint(model, constraint)
         else:
             self._remake_table(model)
 
     def remove_constraint(self, model, constraint):
-        if isinstance(constraint, UniqueConstraint) and constraint.condition:
+        if isinstance(constraint, UniqueConstraint) and (
+            constraint.condition or
+            constraint.contains_expressions or
+            constraint.include or
+            constraint.deferrable
+        ):
             super().remove_constraint(model, constraint)
         else:
             self._remake_table(model)
+
+    def _collate_sql(self, collation):
+        return 'COLLATE ' + collation

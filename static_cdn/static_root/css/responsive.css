@@ -1,214 +1,233 @@
 /* ================= SCREEN MOBILE =================== */
 
 @media only screen and (max-width: 480px) and (min-width: 0px) {
-    * {}
-.map {
-    margin-top: 24px;
-}
-.author-blog-detail.py-4.px-4.shadow-sm {
-    margin-top: 24px;
-}
+    * {
+    }
+
+    .map {
+        margin-top: 24px;
+    }
+
+    .author-blog-detail.py-4.px-4.shadow-sm {
+        margin-top: 24px;
+    }
 
 
-.bottom-single-blog .group-icon-social {
-    display: block;
-    float: none;
-    margin-top: 16px;
-}
+    .bottom-single-blog .group-icon-social {
+        display: block;
+        float: none;
+        margin-top: 16px;
+    }
 
-.content-new-letter {
-    margin-bottom: 24px;
-}
+    .content-new-letter {
+        margin-bottom: 24px;
+    }
 
-.block-info-content li {
-    margin-bottom: 18px;
-}
+    .block-info-content li {
+        margin-bottom: 18px;
+    }
 
-.block-info-content ul {
-    display: block;
-}
+    .block-info-content ul {
+        display: block;
+    }
 
-.author-single-courses .group-icon-social {
-    margin: 0px;
-    margin-top: 6px;
-    margin-bottom: 6px;
-    display: inline-block;
-}
+    .author-single-courses .group-icon-social {
+        margin: 0px;
+        margin-top: 6px;
+        margin-bottom: 6px;
+        display: inline-block;
+    }
 
-.author-single-courses .group-icon-social a {
-    display: inline-block;
-    padding-bottom: 8px;
-}
+    .author-single-courses .group-icon-social a {
+        display: inline-block;
+        padding-bottom: 8px;
+    }
 
-.gr-card-courses-list a.btn.btn-fill-secondary.float-right {
-    margin-bottom: 18px;
-}
+    .gr-card-courses-list a.btn.btn-fill-secondary.float-right {
+        margin-bottom: 18px;
+    }
 
-.card-instrutor-detail .content-instrutor h4 {
-    margin-top: 24px;
-}
+    .card-instrutor-detail .content-instrutor h4 {
+        margin-top: 24px;
+    }
 
-.card-latest-news {
-    margin-bottom: 24px;
-}
+    .card-latest-news {
+        margin-bottom: 24px;
+    }
 
-#carousel-card-instrutor .owl-stage-outer {
-    padding: 0;
-    margin: 0;
-}
-#carousel-card-instrutor-2 .owl-stage-outer {
-    padding: 0;
-    margin: 0;
-}
+    #carousel-card-instrutor .owl-stage-outer {
+        padding: 0;
+        margin: 0;
+    }
 
-#carousel-card-courses-1 .owl-stage-outer {
-    padding: 0px 0px;
-    padding-left: 2px;
-    padding-bottom: 4px;
-}
+    #carousel-card-instrutor-2 .owl-stage-outer {
+        padding: 0;
+        margin: 0;
+    }
 
-#carousel-card-courses-2 .owl-stage-outer {
-    padding: 0px 0px;
-    padding-left: 2px;
-    padding-bottom: 4px;
-}
+    #carousel-card-courses-1 .owl-stage-outer {
+        padding: 0px 0px;
+        padding-left: 2px;
+        padding-bottom: 4px;
+    }
 
-.block-catelory-mobile {
-    display: block;
-}
+    #carousel-card-courses-2 .owl-stage-outer {
+        padding: 0px 0px;
+        padding-left: 2px;
+        padding-bottom: 4px;
+    }
 
-.block-catelory-mobile {
+    .block-catelory-mobile {
+        display: block;
+    }
+
+    .block-catelory-mobile {
         position: fixed;
         overflow-y: auto;
         z-index: 99;
         top: 0;
-        display: block!important;
+        display: block !important;
         width: 300px;
         height: 100%;
         background: #fff;
         transition: all 0.4s;
         transform: translateX(500px);
     }
-.block-catelory-mobile.show3 {
+
+    .block-catelory-mobile.show3 {
         transform: translateX(20px);
     }
-.block-catelory-mobile .card-body {
-    padding: 0px;
-    padding-right: 8px;
-    background: #fafafa;
-}
 
-.block-catelory-mobile .card-body a {
-    font-weight: 300;
-}
-.block-catelory-mobile h3 {
+    .block-catelory-mobile .card-body {
+        padding: 0px;
+        padding-right: 8px;
+        background: #fafafa;
+    }
+
+    .block-catelory-mobile .card-body a {
+        font-weight: 300;
+    }
+
+    .block-catelory-mobile h3 {
         font-size: 18px;
         font-weight: 600;
         display: block;
         margin-top: 16px;
         margin-bottom: 10px;
         padding-right: 14px;
-    }    
-.icon-catelory-mobile {
-  display: inline-block !important;
-  padding: 4px 10px;
-  margin-top: 14px;
-  background: #ffffff;
-  border: 2px solid #4c4c4c;
-}
+    }
 
-.icon-catelory-mobile i {
-    font-size: 16px !important;
-    margin-left: 8px;
-}
+    .icon-catelory-mobile {
+        display: inline-block !important;
+        padding: 4px 10px;
+        margin-top: 14px;
+        background: #ffffff;
+        border: 2px solid #4c4c4c;
+    }
 
-.icon-catelory-mobile span {
-    font-size: 14px;
-}
-.header .bottom-header.header-fixed {position: relative !important;}
+    .icon-catelory-mobile i {
+        font-size: 16px !important;
+        margin-left: 8px;
+    }
 
-.top-header-info-right.float-left {
-    float: right !important;
-}
+    .icon-catelory-mobile span {
+        font-size: 14px;
+    }
 
-.content-banner-top {
-    margin-top: 80px;
-}
+    .header .bottom-header.header-fixed {
+        position: relative !important;
+    }
 
-.block-cate-list {
-    display: none;
-}
+    .top-header-info-right.float-left {
+        float: right !important;
+    }
 
-.block-categories {
-    display: none;
-}
+    .content-banner-top {
+        margin-top: 80px;
+    }
 
-span.wishlist {
-    display: none;
-}
+    .block-cate-list {
+        display: none;
+    }
 
-.group-icon-header {
-    position: absolute;
-    top: -59px;
-    left: 18px;
-}
+    .block-categories {
+        display: none;
+    }
 
-.group-icon-header {
-    margin-top: 16px;
-}
+    span.wishlist {
+        display: none;
+    }
 
-.nav-search {
-    display: none;
-}
+    .group-icon-header {
+        position: absolute;
+        top: -59px;
+        left: 18px;
+    }
 
-.card-number {
-    margin-bottom: 40px;
-}
+    .group-icon-header {
+        margin-top: 16px;
+    }
 
-.button-slide.animated.fadeInLeft {
-    display: none;
-}
+    .nav-search {
+        display: none;
+    }
 
-.content-slide h1 {
-    font-size: 36px;
-}
+    .card-number {
+        margin-bottom: 40px;
+    }
 
-.content-slide h4 {font-size: 18px;}
+    .button-slide.animated.fadeInLeft {
+        display: none;
+    }
 
-.header .middle-header.header-fixed {
-    position: relative !important;
-}
+    .content-slide h1 {
+        font-size: 36px;
+    }
 
-span.login.mr-2 {
-    float: right !important;
-}
-.logo-brand a {
-    margin-right: 8px;
-}
-.top-email, .top-phone {
-    display: none !important;
-} 
-.top-header-info-right .wishlist {
-    display: none !important;
-}
-.middle-header.bg-white .col-3.col-md-12.col-lg-7 {
-    display: none;
-}
+    .content-slide h4 {
+        font-size: 18px;
+    }
 
-.block-navigation.float-left {
-    display: none;
-}
-.group-icon-header .search 
-{
-    display: none;
-}
-i.menu-mobile {
-  display: inline-block;
-  font-size: 20px;
-  margin-right: 8px;
-}
-.overlay-black-2 {
-    display: block;
+    .header .middle-header.header-fixed {
+        position: relative !important;
+    }
+
+    span.login.mr-2 {
+        float: right !important;
+    }
+
+    .logo-brand a {
+        margin-right: 8px;
+    }
+
+    .top-email, .top-phone {
+        display: none !important;
+    }
+
+    .top-header-info-right .wishlist {
+        display: none !important;
+    }
+
+    .middle-header.bg-white .col-3.col-md-12.col-lg-7 {
+        display: none;
+    }
+
+    .block-navigation.float-left {
+        display: none;
+    }
+
+    .group-icon-header .search {
+        display: none;
+    }
+
+    i.menu-mobile {
+        display: inline-block;
+        font-size: 20px;
+        margin-right: 8px;
+    }
+
+    .overlay-black-2 {
+        display: block;
         background: #00000057;
         position: fixed;
         width: 100%;
@@ -220,7 +239,8 @@ i.menu-mobile {
         transition: all 0.4s;
         display: block;
     }
-.overlay-black {
+
+    .overlay-black {
         background: #00000057;
         position: fixed;
         width: 100%;
@@ -231,47 +251,58 @@ i.menu-mobile {
         opacity: 0;
         transition: all 0.4s;
     }
+
     .overlay-black.show2 {
         visibility: visible;
         opacity: 1;
     }
-     .overlay-black-2.show4 {
+
+    .overlay-black-2.show4 {
         visibility: visible;
         opacity: 1;
     }
+
     .content-ex-produc-hv .gr-btn-card {
         width: 100%;
     }
+
     .block-menu-mobile {
         position: fixed;
         overflow-y: auto;
         z-index: 99;
         top: 0;
-        display: block!important;
+        display: block !important;
         width: 300px;
         height: 100%;
         background: #fff;
         transition: all 0.4s;
         transform: translateX(500px);
     }
+
     .block-menu-mobile.show1 {
         transform: translateX(0px);
     }
+
     .block-menu-mobile .card-body {
         padding: 0;
         padding-left: 0px;
         background: #f8f9fa;
     }
 
-.block-menu-mobile .card-body a {font-weight: 600;}
+    .block-menu-mobile .card-body a {
+        font-weight: 600;
+    }
+
     .block-menu-mobile .card-body ul {
         padding: 8px;
         margin: 0px;
     }
+
     .block-menu-mobile .dropdown-header {
         padding-left: 16px;
         background: #f8f9fa;
     }
+
     .overlay-black .close-mobile {
         width: 30px;
         height: 30px;
@@ -283,7 +314,8 @@ i.menu-mobile {
         font-size: 18px;
         background: #fff;
     }
-     .overlay-black-2 .close-mobile-cate {
+
+    .overlay-black-2 .close-mobile-cate {
         width: 30px;
         height: 30px;
         line-height: 30px;
@@ -294,6 +326,7 @@ i.menu-mobile {
         font-size: 18px;
         background: #fff;
     }
+
     .block-menu-mobile h3 {
         font-size: 18px;
         font-weight: 700;
@@ -309,12 +342,14 @@ i.menu-mobile {
         border-bottom: 1px solid #f8f9fa !important;
         background: #fff;
     }
+
     .block-menu-mobile .card-header {
         padding: 0px;
         padding: 6px 16px;
         padding-left: 4px;
         background: #fff;
     }
+
     .block-menu-mobile .card-header i {
         display: inline-block;
         width: 30px;
@@ -322,162 +357,181 @@ i.menu-mobile {
         line-height: 30px;
         text-align: center;
     }
+
     .block-menu-mobile .card-header a {
         color: #495057;
         font-weight: 300;
     }
+
     .slide-style-1 .carousel-caption {
         top: 0;;
     }
 
-.spinner {
-  margin: 270px auto;
-  width: 50px;
-  height: 40px;
-  text-align: center;
-  font-size: 10px;
-}
+    .spinner {
+        margin: 270px auto;
+        width: 50px;
+        height: 40px;
+        text-align: center;
+        font-size: 10px;
+    }
 
 }
+
 /* ================= SCREEN TABLET =================== */
 
 @media only screen and (min-width: 480px) and (max-width: 768px) {
-    * {}
-.spinner {
-  margin: 490px auto;
-  width: 50px;
-  height: 40px;
-  text-align: center;
-  font-size: 10px;
-}
-.card-latest-news {
-    margin-bottom: 24px;
-}
+    * {
+    }
 
-.content-banner-top {
-}
+    .spinner {
+        margin: 490px auto;
+        width: 50px;
+        height: 40px;
+        text-align: center;
+        font-size: 10px;
+    }
+
+    .card-latest-news {
+        margin-bottom: 24px;
+    }
+
+    .content-banner-top {
+    }
+
     .block-catelory-mobile {
-    display: block;
-}
+        display: block;
+    }
 
-.block-catelory-mobile {
+    .block-catelory-mobile {
         position: fixed;
         overflow-y: auto;
         z-index: 99;
         top: 0;
-        display: block!important;
+        display: block !important;
         width: 300px;
         height: 100%;
         background: #fff;
         transition: all 0.4s;
         transform: translateX(500px);
     }
-.block-catelory-mobile.show3 {
+
+    .block-catelory-mobile.show3 {
         transform: translateX(75px);
     }
-.block-catelory-mobile .card-body {
-    padding: 0px;
-    padding-left: 8px;
-    background: #fafafa;
-}
 
-.block-catelory-mobile .card-body a {
-    font-weight: 300;
-}
-.block-catelory-mobile h3 {
+    .block-catelory-mobile .card-body {
+        padding: 0px;
+        padding-left: 8px;
+        background: #fafafa;
+    }
+
+    .block-catelory-mobile .card-body a {
+        font-weight: 300;
+    }
+
+    .block-catelory-mobile h3 {
         font-size: 18px;
         font-weight: 500;
         display: block;
         margin-top: 16px;
         margin-bottom: 10px;
         padding-right: 14px;
-    }    
-.icon-catelory-mobile {
-  display: inline-block !important;
-  padding: 4px 8px;
-  margin-top: 12px;
-  background: #ffffff;
-  border: 2px solid #4c4c4c;
-}
+    }
 
-.header .bottom-header.header-fixed {position: relative !important;}
+    .icon-catelory-mobile {
+        display: inline-block !important;
+        padding: 4px 8px;
+        margin-top: 12px;
+        background: #ffffff;
+        border: 2px solid #4c4c4c;
+    }
 
-.top-header-info-right.float-left {
-    float: right !important;
-}
+    .header .bottom-header.header-fixed {
+        position: relative !important;
+    }
 
-.content-banner-top {
-    margin-top: 130px;
-}
+    .top-header-info-right.float-left {
+        float: right !important;
+    }
 
-.block-cate-list {
-    display: none;
-}
+    .content-banner-top {
+        margin-top: 130px;
+    }
 
-.block-categories {
-    display: none;
-}
+    .block-cate-list {
+        display: none;
+    }
 
-span.wishlist {
-    display: none;
-}
+    .block-categories {
+        display: none;
+    }
+
+    span.wishlist {
+        display: none;
+    }
 
 
-.group-icon-header {
-    margin-top: 16px;
-    float: left;
-}
+    .group-icon-header {
+        margin-top: 16px;
+        float: left;
+    }
 
-.nav-search form input[type='text'] {
-    width: 100%;
-}
+    .nav-search form input[type='text'] {
+        width: 100%;
+    }
 
-.card-number {
-    margin-bottom: 40px;
-}
+    .card-number {
+        margin-bottom: 40px;
+    }
 
-.button-slide.animated.fadeInLeft {
-    display: none;
-}
+    .button-slide.animated.fadeInLeft {
+        display: none;
+    }
 
-.content-slide h1 {
-    font-size: 36px;
-}
+    .content-slide h1 {
+        font-size: 36px;
+    }
 
-.content-slide h4 {font-size: 18px;}
+    .content-slide h4 {
+        font-size: 18px;
+    }
 
-.header .middle-header.header-fixed {
-    position: relative !important;
-}
+    .header .middle-header.header-fixed {
+        position: relative !important;
+    }
 
-span.login.mr-2 {
-    float: right !important;
-}
-.logo-brand a {
-    margin-right: 8px;
-}
+    span.login.mr-2 {
+        float: right !important;
+    }
 
-.top-header-info-right .wishlist {
-    display: none !important;
-}
-.middle-header.bg-white .col-3.col-md-12.col-lg-7 {
-    display: none;
-}
+    .logo-brand a {
+        margin-right: 8px;
+    }
 
-.block-navigation.float-left {
-    display: none;
-}
-.group-icon-header .search 
-{
-    display: none;
-}
-i.menu-mobile {
-  display: inline-block;
-  font-size: 20px;
-  margin-right: 8px;
-}
-.overlay-black-2 {
-    display: block;
+    .top-header-info-right .wishlist {
+        display: none !important;
+    }
+
+    .middle-header.bg-white .col-3.col-md-12.col-lg-7 {
+        display: none;
+    }
+
+    .block-navigation.float-left {
+        display: none;
+    }
+
+    .group-icon-header .search {
+        display: none;
+    }
+
+    i.menu-mobile {
+        display: inline-block;
+        font-size: 20px;
+        margin-right: 8px;
+    }
+
+    .overlay-black-2 {
+        display: block;
         background: #00000057;
         position: fixed;
         width: 100%;
@@ -488,7 +542,8 @@ i.menu-mobile {
         opacity: 0;
         transition: all 0.4s;
     }
-.overlay-black {
+
+    .overlay-black {
         background: #00000057;
         position: fixed;
         width: 100%;
@@ -499,47 +554,58 @@ i.menu-mobile {
         opacity: 0;
         transition: all 0.4s;
     }
+
     .overlay-black.show2 {
         visibility: visible;
         opacity: 1;
     }
-     .overlay-black-2.show4 {
+
+    .overlay-black-2.show4 {
         visibility: visible;
         opacity: 1;
     }
+
     .content-ex-produc-hv .gr-btn-card {
         width: 100%;
     }
+
     .block-menu-mobile {
         position: fixed;
         overflow-y: auto;
         z-index: 99;
         top: 0;
-        display: block!important;
+        display: block !important;
         width: 300px;
         height: 100%;
         background: #fff;
         transition: all 0.4s;
         transform: translateX(500px);
     }
+
     .block-menu-mobile.show1 {
         transform: translateX(0px);
     }
+
     .block-menu-mobile .card-body {
         padding: 0;
         padding-left: 0px;
         background: #f8f9fa;
     }
 
-.block-menu-mobile .card-body a {font-weight: 600;}
+    .block-menu-mobile .card-body a {
+        font-weight: 600;
+    }
+
     .block-menu-mobile .card-body ul {
         padding: 8px;
         margin: 0px;
     }
+
     .block-menu-mobile .dropdown-header {
         padding-left: 16px;
         background: #f8f9fa;
     }
+
     .overlay-black .close-mobile {
         width: 30px;
         height: 30px;
@@ -551,7 +617,8 @@ i.menu-mobile {
         font-size: 18px;
         background: #fff;
     }
-     .overlay-black-2 .close-mobile-cate {
+
+    .overlay-black-2 .close-mobile-cate {
         width: 30px;
         height: 30px;
         line-height: 30px;
@@ -562,6 +629,7 @@ i.menu-mobile {
         font-size: 18px;
         background: #fff;
     }
+
     .block-menu-mobile h3 {
         font-size: 18px;
         font-weight: 700;
@@ -577,12 +645,14 @@ i.menu-mobile {
         border-bottom: 1px solid #f8f9fa !important;
         background: #fff;
     }
+
     .block-menu-mobile .card-header {
         padding: 0px;
         padding: 6px 16px;
         padding-left: 4px;
         background: #fff;
     }
+
     .block-menu-mobile .card-header i {
         display: inline-block;
         width: 30px;
@@ -590,22 +660,26 @@ i.menu-mobile {
         line-height: 30px;
         text-align: center;
     }
+
     .block-menu-mobile .card-header a {
         color: #495057;
         font-weight: 300;
     }
+
     .slide-style-1 .carousel-caption {
         top: 0;;
     }
-    .icon-catelory-mobile i {
-    font-size: 16px !important;
-    margin-left: 8px;
-}
 
-.icon-catelory-mobile span {
-    font-size: 14px;
-}
-.gr-card-courses-list a.btn.btn-fill-secondary.float-right {
-    margin-bottom: 18px;
-}
+    .icon-catelory-mobile i {
+        font-size: 16px !important;
+        margin-left: 8px;
+    }
+
+    .icon-catelory-mobile span {
+        font-size: 14px;
+    }
+
+    .gr-card-courses-list a.btn.btn-fill-secondary.float-right {
+        margin-bottom: 18px;
+    }
 }
