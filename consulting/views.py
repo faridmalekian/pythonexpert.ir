@@ -6,6 +6,7 @@ from .forms import RegisterForm
 
 from consulting.models import Consulting
 from .forms import RegisterForm
+import re
 
 from django.contrib import messages
 
@@ -19,7 +20,7 @@ from django.contrib import messages
 #     }
 #     return context
 
-def add_to_db(request):
+def consulting_form(request):
     register_form = RegisterForm(request.POST or None)
     context = {
         "form": register_form
@@ -31,7 +32,7 @@ def add_to_db(request):
         tel = register_form.cleaned_data["tel"]
         add = register_form.cleaned_data["add"]
 
-        Consulting.objects.create(name=name, email=email, tel=tel, add=add)
+        Consulting.objects.create(name=name, email=email, tel=tel, add=add).save()
 
         register_form = RegisterForm()
 
@@ -42,5 +43,4 @@ def add_to_db(request):
         return render(request, "home_page.html", context)
 
     else:
-        messages.error(request, "Error")
-        return render(request, "home_page.html", context)
+        return render(request, "home_page.html", context,status=406)

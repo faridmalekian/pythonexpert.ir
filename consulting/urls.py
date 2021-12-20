@@ -1,7 +1,7 @@
 from django.urls import path
 
-from consulting.views import add_to_db
+from consulting.views import consulting_form
 
 urlpatterns = [
-    path('consulting', add_to_db),
+    path('consulting', consulting_form),
 ]

@@ -15,13 +15,16 @@ class RegisterForm(forms.Form):
 
     def clean_tel(self):
 
-        tel = self.cleaned_data["tel"]
-        consulting_number = Consulting.objects.filter(tel=tel)
+        temp_tel = self.cleaned_data["tel"]
+        consulting_number = Consulting.objects.filter(tel=temp_tel)
+        # print(type(tel))
+        #print(len(temp_tel))
+        #not re.match(r"^(09)([0-9]{9})", temp_tel)   len(temp_tel) != 11
 
-        if not re.match(r"^09[0-9]{9}", tel):
+        if len(temp_tel) != 11:
             raise forms.ValidationError("شماره وارد شده معتبر نیست...")
         else:
             if consulting_number:
                 raise forms.ValidationError("این شماره قبلا استفاده شده است...")
             else:
-                return tel
+                return temp_tel
