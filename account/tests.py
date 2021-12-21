@@ -7,20 +7,27 @@ from django.contrib.auth.models import User
 class AccountTest(TestCase):
     @classmethod
     def setUpTestData(cls):
-        cls.counterPass = 0
-        cls.counterFail = 0
+        ###Create test db and create user
+
+        cls.counterPass = 0  ### login successfully
+        cls.counterFail = 0  ### login Fail
 
         for i in range(20):
+
+            ##create user with password root
             User.objects.create_user(username=f"username{i}", email=f"username{i}@gmail.com", first_name=f"username{i}",
                                      last_name=f"userlast{i}",
                                      password=f"root").save()
 
         for i in range(20, 30):
+
+            ### create user with password root20
             User.objects.create_user(username=f"username{i}", email=f"username{i}@gmail.com", first_name=f"username{i}",
                                      last_name=f"userlast{i}",
                                      password=f"root20").save()
 
     def test_login(self):
+        ## test for login component
         self.user_info = User.objects.all()
         print(self.user_info)
 
@@ -29,6 +36,7 @@ class AccountTest(TestCase):
             # print(
             #     f"username={self.user_info[i].username} (test)-->> {c.login(username=self.user_info[i].username, password='root20')}")
 
+            ### login all user with password root20 that twenty user don't login and ten user loing successfully
             if c.login(username=self.user_info[i].username, password='root20'):
                 self.counterPass += 1
 
@@ -41,7 +49,7 @@ class AccountTest(TestCase):
             self.assertTrue(False)
 
 
-## Selenium
+### wirte test by Selenium + unittest
 import unittest
 
 from selenium import webdriver
@@ -54,6 +62,7 @@ class SeleniumTests(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
+        ### set config for selenium
         super().setUpClass()
         cls.path = os.path.dirname(os.path.abspath(__file__))
         cls.address = os.path.join(cls.path, "chromedriver")
@@ -63,25 +72,16 @@ class SeleniumTests(unittest.TestCase):
         cls.counterPass = 0
         cls.counterFail = 0
 
-        # for i in range(10):
-        #     User.objects.create_user(username=f"username{i}", email=f"username{i}@gmail.com", first_name=f"username{i}",
-        #                              last_name=f"userlast{i}",
-        #                              password=f"root").save()
-        #
-        # for i in range(10, 20):
-        #     User.objects.create_user(username=f"username{i}", email=f"username{i}@gmail.com", first_name=f"username{i}",
-        #                              last_name=f"userlast{i}",
-        #                              password=f"root20").save()
-
         cls.driver.get('http://127.0.0.1:8000/login/')
 
     @classmethod
     def tearDownClass(cls):
+        ### distroying
         cls.driver.quit()
         super().tearDownClass()
 
     def test_login(self):
-
+        ## create a robot by selenium to test data of test data base as user
         self.user_info = User.objects.all()
 
         for i in self.user_info:
