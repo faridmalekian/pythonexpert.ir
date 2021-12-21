@@ -5,6 +5,7 @@ from .models import Consulting
 class ConsultingTest(TestCase):
     @classmethod
     def setUpTestData(cls):
+        ### Create test database for consulting
         for i in range(10):
             Consulting.objects.create(name=f"name{i}", email=f"name{i}@gmail.com", tel=f"09{i}{i}{i}{i}{i}{i}{i}{i}{i}",
                                       add=f"name{i},address{i},street{i}").save()
@@ -12,6 +13,7 @@ class ConsultingTest(TestCase):
         cls.consulting_all_info = Consulting.objects.all()
 
     def test_consulting(self):
+        ### create test to deny input duplicate data and invalid data
         c = Client()
 
         for i in range(5, 16):

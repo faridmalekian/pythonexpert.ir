@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e19bfdbc-4cda-430a-9930-5e6366d53382" name="Default Changelist" comment="added and written tests.py (django.test and selenium) for account application">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/account/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/account/tests.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/consulting/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/consulting/tests.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -285,7 +284,7 @@
       <workItem from="1639913692880" duration="2822000" />
       <workItem from="1639916940839" duration="4067000" />
       <workItem from="1640013459279" duration="11554000" />
-      <workItem from="1640065485817" duration="9142000" />
+      <workItem from="1640065485817" duration="9583000" />
     </task>
     <task id="LOCAL-00001" summary="added and written tests.py (django.test and selenium) for account application">
       <created>1639920858782</created>
