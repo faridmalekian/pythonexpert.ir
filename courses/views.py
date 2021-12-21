@@ -34,6 +34,8 @@ class CoursesByCategory(ListView):
 
 def course_detail(request, pk, slug):
     course = Course.objects.get_by_id(pk)
+    if course.slug != slug:
+        raise Http404
     teacher = UserProfile.objects.get_queryset().filter(user_id=(course.owner.id)).first()
     # tag = [tag for tag in Tag.objects.all() if tag in Course.objects.get_by_id(pk).tag.all()]
     tag = course.tag_set.all()
